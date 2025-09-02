@@ -1,0 +1,9 @@
+[project]
+name = "my_project"
+version = "0.1.0"
+description = "A toy project for practicing Python project structure"
+authors = [{ name = "Your Name" }]
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
