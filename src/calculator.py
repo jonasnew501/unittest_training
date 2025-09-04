@@ -1,7 +1,7 @@
 from typing import Union
 
 
-class DivisionByZeroError(Exception):
+class DivisionError(Exception):
     '''
     A custom domain-specific Exception.
     '''
@@ -22,7 +22,12 @@ class Calculator:
         - The result of the division, if b != 0
         - A custom 'DivisionByZeroError' if b == 0.
         '''
+        if not isinstance(a, (int, float)) or not isinstance(b, (int, float)):
+            raise DivisionError
         if b == 0:
-            raise DivisionByZeroError
+            raise DivisionError
         else:
             return a/b
+
+
+# print(Calculator.divide(2,0))
