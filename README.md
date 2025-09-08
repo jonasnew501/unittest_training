@@ -84,9 +84,45 @@ is practiced.
     *Failing unittests show resp. mean that the contract of the related function was broken.*  
 
     To make this more clear, I will outline a practical example I dived into:  
+    - Let´s say there is the function 'divide' (see in 'src/calculator.py' -> class 'Calculator').  
+      The function so far makes the promise that it always returns a float for valid inputs.  
+      That this promise is delivered is proven by the accompanying unittest, which passes  
+      (see in 'tests/test_calculator.py -> class 'TestCalculator' -> function 'test_divide_valid_inputs_correct_datatype').
+    - Then, someone wanted to add a new feature to the function 'divide': An integer-division:  
+      ```python
+      if isinstance(a, int) and isinstance(b, int):
+          return a // b #returns an int
+      ```
+      This would return an integer instead of a float when both input-values of 'divide' are of type 'int'.  
+      --> If this feature was added to the functions´ code, the accompanying unittest 'test_divide_valid_inputs_correct_datatype'  
+      would of course fail, because the functions promis / contract was broken by adding this new feature.  
+      ```python
+      #The accompanying unittest:
+      @pytest.mark.parametrize(
+          "a, b",
+          [
+              (2, 4), #two positive numbers
+              (2, -5), #one positive and one negative number
+              (-2.5, -5), #two negative numbers (one is float)
+              (0, 0.01), #numerator is zero (denominator is float)
+          ]
+      )
+      def test_divide_valid_inputs_correct_datatype(a, b):
+          assert isinstance(Calculator.divide(a, b), float)
+      ```
     
+    - Now, the question arises how to handle this case:
+      - A: The programmer could implement this new feature, adjust the functions´ docstring accordingly and adjust  
+           the related unittest 'test_divide_valid_inputs_correct_datatype'.
+           --> However, that would mean that the functions´ promise/contract was changed.
+      - B: The programmer could leave the function 'divide' as is (maybe rename it to 'divide_floats'), and not implement this new feature in there.  
+           Instead, they could create a completely new function for exactly this new feature (e.g. 'divide_integer'),  
+           and write accompanying test cases for this new function.  
+      
+      --> Both approaches have advantages and 
+           
 
-    
+
 
 - **How to properly structure and format function docstrings**
 

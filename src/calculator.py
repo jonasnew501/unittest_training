@@ -38,6 +38,10 @@ class Calculator:
         
         if b == 0:
             raise DivisionByZeroError("Denominator cannot be zero.")
+    
+        # #New feature: Integer division (return an int when both arguments are of type int)
+        # if isinstance(a, int) and isinstance(b, int):
+        #     return a // b #returns an int
         
         return a/b
 
