@@ -119,10 +119,21 @@ is practiced.
            Instead, they could create a completely new function for exactly this new feature (e.g. 'divide_integer'),  
            and write accompanying test cases for this new function.  
       
-      --> Both approaches have advantages and 
+      --> Both approaches have advantages and disadvantages:
+      - Approach A has the advantage that potential code-duplication due to creating two very similar functions could be avoided.  
+        However, is has the disadvantage that since the contract of the function 'divide' was broken, it is well possible,  
+        that other parts of the project, which use 'divide' and rely on 'divide' returning only floats, might now break due to  
+        the contract change.  
+        ***-->Unit-tests for 'divide' will not capture those potential code-breaks down the line. To detect those potential code-breaks  
+        I would argue that other kinds of tests, like integration-tests for example, are necessary, which check if multiple units  
+        work together correctly.***  
+      - Approach B has the advantage that parts of the code, which rely on the "old" / current contract of 'divide' don´t break potentially,  
+        because 'divide' was not changed.  
+        However, as already pointed out above, the disadvantage is that code-duplication might happen and thus the maintainability of the  
+        codebase might be corrupted by that.  
            
-
-
+      --> This example showed the limits of unittests.  
+      --> Probably in practice in every case an individual decision must be made which approach makes more sense.  
 
 - **How to properly structure and format function docstrings**
 
