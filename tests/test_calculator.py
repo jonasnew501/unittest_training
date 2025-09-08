@@ -4,12 +4,28 @@ from calculator import DivisionByZeroError, InvalidInputError, Calculator
 
 
 class TestCalculator:
+    # @staticmethod
+    # #The version of this function without pytests parameterization
+    # def test_divide_valid_inputs():
+    #     assert Calculator.divide(a=2, b=4) == 0.5 #two positive numbers
+    #     assert Calculator.divide(a=2, b=-5) == -0.4 #one positive and one negative number
+    #     assert Calculator.divide(a=-2.5, b=-5) == 0.5 #two negative numbers (one is float)
+    #     assert Calculator.divide(a=0, b=0.01) == 0 #numerator is zero (denominator is float)
+    
     @staticmethod
-    def test_divide_valid_inputs():
-        assert Calculator.divide(a=2, b=4) == 0.5 #two positive numbers
-        assert Calculator.divide(a=2, b=-5) == -0.4 #one positive and one negative number
-        assert Calculator.divide(a=-2.5, b=-5) == 0.5 #two negative numbers (one is float)
-        assert Calculator.divide(a=0, b=0.01) == 0 #numerator is zero (one is float)
+    #The version of this function with pytests parameterization
+    @pytest.mark.parametrize(
+        "a, b, expected",
+        [
+            (2, 4, 0.5), #two positive numbers
+            (2, -5, -0.4), #one positive and one negative number
+            (-2.5, -5, 0.5), #two negative numbers (one is float)
+            (0, 0.01, 0), #numerator is zero (denominator is float)
+        ]
+    )
+    def test_divide_valid_inputs(a, b, expected):
+        assert Calculator.divide(a, b) == expected
+
     
     @staticmethod
     def test_divide_denominator_zero():
