@@ -23,8 +23,23 @@ class TestCalculator:
             (0, 0.01, 0), #numerator is zero (denominator is float)
         ]
     )
-    def test_divide_valid_inputs(a, b, expected):
+    def test_divide_valid_inputs_correct_result(a, b, expected):
         assert Calculator.divide(a, b) == expected
+    
+    
+    @staticmethod
+    #The version of this function with pytests parameterization
+    @pytest.mark.parametrize(
+        "a, b",
+        [
+            (2, 4), #two positive numbers
+            (2, -5), #one positive and one negative number
+            (-2.5, -5), #two negative numbers (one is float)
+            (0, 0.01), #numerator is zero (denominator is float)
+        ]
+    )
+    def test_divide_valid_inputs_correct_datatype(a, b):
+        assert isinstance(Calculator.divide(a, b), float)
 
     
     @staticmethod
