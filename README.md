@@ -62,6 +62,27 @@ is practiced.
   ```
   worked fine when executing 'pytest' in the terminal.
 
+- **Seeing a function as making a 'promise' / 'contract' to resp. with the caller**
+    - A function can be conceptually viewed as making a promise to the caller. It promises:  
+      - That potential return-values are correct (e.g. the result of a mathematical operation is correct).  
+      - That the datatype of potential return-values are of a specific type/of specific types.  
+      - That specific invalid inputs result in specific exceptions the function will raise.  
+    
+    --> *How this relates to accompanying unit-tests of that function:*  
+
+    The unit-tests are there to test, if all those promises made in the functions´ description (docstring)  
+    or in the functions´ name or context it appears in are delivered.  
+    The unittests should tests both the 'happy-paths' (as called in Uncle Bobs book 'Clean Code'), i.e.  
+    the behavior with valid function input-values, and the 'failure-paths', i.e. the stated function behavior  
+    with invalid input-values.  
+
+    After all, the unittests can be seen to prove that the function actually keeps it´s promise (made in its  
+    docstring, etc.). Of course this is only true if the unittests are implemented correctly and don´t miss  
+    to check a part of the functions´ promise.
+
+- **I learned what the limits of unittests are and what failing unittests actually mean.**
+    - Failing unittests not necessarily mean that 
+
 - **How to properly structure and format function docstrings**
 
 - **Raising domain-specific custom Exceptions instead of built-in Exceptions is a practice of clean code.**  
