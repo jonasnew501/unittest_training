@@ -14,7 +14,16 @@ class TestCalculator:
     @staticmethod
     def test_divide_denominator_zero():
         with pytest.raises(DivisionByZeroError):
-            Calculator.divide(a=2.4, b=0)
+            Calculator.divide(a=2.4, b=0) #numerator positive, denominator zero
+
+        with pytest.raises(DivisionByZeroError):
+            Calculator.divide(a=-2.4, b=0) #numerator negative, denominator zero
+
+        with pytest.raises(DivisionByZeroError):
+            Calculator.divide(a=0, b=0) #numerator zero, denominator zero
+        
+        with pytest.raises(DivisionByZeroError):
+            Calculator.divide(a=0, b=-0) #numerator zero, denominator negative zero
     
     @staticmethod
     def test_divide_invalid_input_types():
