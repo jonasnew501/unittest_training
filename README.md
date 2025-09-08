@@ -62,11 +62,7 @@ is practiced.
   ```
   worked fine when executing 'pytest' in the terminal.
 
-  <br>
-
 - **How to properly structure and format function docstrings**
-
-  <br>
 
 - **Raising domain-specific custom Exceptions instead of built-in Exceptions is a practice of clean code.**  
     - By doing that, implementation-details are hidden from the caller; they don´t need to know or reason about  
@@ -75,8 +71,6 @@ is practiced.
     - Furthermore, using domain-specific custom Exceptions makes code-maintainance more easy, because when refactoring  
       for example, it is more unlikely that the exceptions used in the accompanying unit-tests need to be changed / adapted  
       too if domain-specific custom Exceptions are used compared to when built-in, very specific exceptions are used.
-
-  <br>
 
 - **How pytest handles the context-manager 'with pytest.raises([SomeException])'**
     - When using the context-manager 'with pytest.raises([SomeException]'), only one function which is expected to raise  
