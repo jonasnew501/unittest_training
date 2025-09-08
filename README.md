@@ -81,4 +81,37 @@ is practiced.
       -->As a consequence, per context-manager with 'with pytest.raises([SomeException])' only one function, which is expected
       to raise 'SomeException' must be contained.
 
+- **How to use pytests 'parameterize' to avoid code duplication in test-functions**
+
+  Instead of having repeating function-calls resp. 'assert'-statements with just different parameters, like this:
+  ```python
+  @staticmethod
+  def test_divide_valid_inputs():
+      assert Calculator.divide(a=2, b=4) == 0.5 #two positive numbers
+      assert Calculator.divide(a=2, b=-5) == -0.4 #one positive and one negative number
+      assert Calculator.divide(a=-2.5, b=-5) == 0.5 #two negative numbers (one is float)
+      assert Calculator.divide(a=0, b=0.01) == 0 #numerator is zero (denominator is float)
+  ```
+
+  the test-function can be decorated with the parameters and expected value(s), like so:
+  ```python
+  @staticmethod
+  @pytest.mark.parametrize(
+      "a, b, expected",
+      [
+          (2, 4, 0.5), #two positive numbers
+          (2, -5, -0.4), #one positive and one negative number
+          (-2.5, -5, 0.5), #two negative numbers (one is float)
+          (0, 0.01, 0), #numerator is zero (denominator is float)
+      ]
+  )
+  def test_divide_valid_inputs(a, b, expected):
+      assert Calculator.divide(a, b) == expected
+  ```
+
+  When using 'pytest.mark.parameterization', pytest creates one separate test case resp. one separate call of the test-function  
+  ('test_divide_valid_inputs' in the above example) for every set of parameters.  
+
+  Using test-parameterization makes the test code more readable, maintainable and scalable.  
+
 - XXX
