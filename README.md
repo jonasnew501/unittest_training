@@ -81,7 +81,12 @@ is practiced.
     to check a part of the functions´ promise.
 
 - **I learned what the limits of unittests are and what failing unittests actually mean.**
-    - Failing unittests not necessarily mean that 
+    *Failing unittests show resp. mean that the contract of the related function was broken.*  
+
+    To make this more clear, I will outline a practical example I dived into:  
+    
+
+    
 
 - **How to properly structure and format function docstrings**
 
