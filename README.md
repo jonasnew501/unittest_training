@@ -8,8 +8,8 @@ is practiced.
 
 
 ## What I Learned
-- Why, when executing `pytest` from the root directory (in this project `unittest_training`),  
-  the imports from files inside `src/` into a file inside `tests/` often fail — and how to solve it.
+- **Why, when executing `pytest` from the root directory (in this project `unittest_training`),  
+  the imports from files inside `src/` into a file inside `tests/` often fail — and how to solve it.**
 
   ### ➡️ Why imports failed
   By default, when running `pytest` from the project root, Python does not know that the `src/`  
@@ -61,5 +61,30 @@ is practiced.
   from calculator import Calculator
   ```
   worked fine when executing 'pytest' in the terminal.
+
+  <br>
+
+- **How to properly structure and format function docstrings**
+
+  <br>
+
+- **Raising domain-specific custom Exceptions instead of built-in Exceptions is a practice of clean code.**  
+    - By doing that, implementation-details are hidden from the caller; they don´t need to know or reason about  
+      how the respective function was implemented (based off of an Exception it threw).
+  
+    - Furthermore, using domain-specific custom Exceptions makes code-maintainance more easy, because when refactoring  
+      for example, it is more unlikely that the exceptions used in the accompanying unit-tests need to be changed / adapted  
+      too if domain-specific custom Exceptions are used compared to when built-in, very specific exceptions are used.
+
+  <br>
+
+- **How pytest handles the context-manager 'with pytest.raises([SomeException])'**
+    - When using the context-manager 'with pytest.raises([SomeException]'), only one function which is expected to raise  
+      this exception must be contained in that context-manager.  
+      *-->Reason:* As soon as a function in that context-manager actually raises the specified exception, the context-manager    
+      is exited immediately. Thus all other code that comes below that function which rose the specified exception is dead code.
+
+      -->As a consequence, per context-manager with 'with pytest.raises([SomeException])' only one function, which is expected
+      to raise 'SomeException' must be contained.
 
 - XXX
