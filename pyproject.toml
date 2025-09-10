@@ -1,8 +1,8 @@
 [project]
-name = "my_project"
+name = "unittest_training"
 version = "0.1.0"
-description = "A toy project for practicing Python project structure"
-authors = [{ name = "Your Name" }]
+description = "A toy project for practicing Unittests in Python via Pytest and CI via GitHub Actions."
+authors = [{ name = "Jonas Neumayer" }]
 dependencies = []
 
 [tool.pytest.ini_options]

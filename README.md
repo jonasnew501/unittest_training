@@ -8,8 +8,8 @@ is practiced.
 
 
 ## What I Learned
-- Why, when executing `pytest` from the root directory (in this project `unittest_training`),  
-  the imports from files inside `src/` into a file inside `tests/` often fail — and how to solve it.
+- **Why, when executing `pytest` from the root directory (in this project `unittest_training`),  
+  the imports from files inside `src/` into a file inside `tests/` often fail — and how to solve it.**
 
   ### ➡️ Why imports failed
   By default, when running `pytest` from the project root, Python does not know that the `src/`  
@@ -32,8 +32,159 @@ is practiced.
   ```
   This way, modules inside src/ become importable as top-level packages.
   For example, src/calculator.py can be imported simply as:
-  ```
+  ```python
   from calculator import Calculator
   ```
+
+  <br>
+
+  **However, I then encountered a case where even with a said 'pyproject.toml'-file the 'ModuleNotFoundError' arose.**  
+  I then installed the project as described in the following section.
+
+  ### ✅ Solution with 'pip install (-e) [project-name]'
+  The project can be installed as a Python package. It can then essentially be imported like other popular Python libraries like "NumPy" or "Pandas".
+  
+  In order for a project to be installable, the project needs to be structured as a Python package. That means:
+    - At least one folder needs to contain an '__init__.py-file, making that folder be treated as a package.
+    - Some packaging metadata (the 'pyproject.toml'-file in this project)
+
+  When those two points are met, running 'pip install -e .' from the project-root-directory will create a file  
+  inside the 'site-packages'-folder of the python-environment, which points back to the local folder of the project.
+
+  Now, on the machine where this installation was done, the project can be imported from anywhere.  
+  Also, local changes of this project are immediately recognized by Python (due to the '-e'-flag, which stands for 'editable mode').  
+  This means that no reinstall in necessary once the code in the project is changed.
+
+
+  After installing the project as a Python package, the import
+  ```python
+  from calculator import Calculator
+  ```
+  worked fine when executing 'pytest' in the terminal.
+
+- **Seeing a function as making a 'promise' / 'contract' to resp. with the caller**
+    - A function can be conceptually viewed as making a promise to the caller. It promises:  
+      - That potential return-values are correct (e.g. the result of a mathematical operation is correct).  
+      - That the datatype of potential return-values are of a specific type/of specific types.  
+      - That specific invalid inputs result in specific exceptions the function will raise.  
+    
+    --> *How this relates to accompanying unit-tests of that function:*  
+
+    The unit-tests are there to test, if all those promises made in the functions´ description (docstring)  
+    or in the functions´ name or context it appears in are delivered.  
+    The unittests should tests both the 'happy-paths' (as called in Uncle Bobs book 'Clean Code'), i.e.  
+    the behavior with valid function input-values, and the 'failure-paths', i.e. the stated function behavior  
+    with invalid input-values.  
+
+    After all, the unittests can be seen to prove that the function actually keeps it´s promise (made in its  
+    docstring, etc.). Of course this is only true if the unittests are implemented correctly and don´t miss  
+    to check a part of the functions´ promise.
+
+- **I learned what the limits of unittests are and what failing unittests actually mean.**
+    *Failing unittests show resp. mean that the contract of the related function was broken.*  
+
+    To make this more clear, I will outline a practical example I dived into:  
+    - Let´s say there is the function 'divide' (see in 'src/calculator.py' -> class 'Calculator').  
+      The function so far makes the promise that it always returns a float for valid inputs.  
+      That this promise is delivered is proven by the accompanying unittest, which passes  
+      (see in 'tests/test_calculator.py -> class 'TestCalculator' -> function 'test_divide_valid_inputs_correct_datatype').
+    - Then, someone wanted to add a new feature to the function 'divide': An integer-division:  
+      ```python
+      if isinstance(a, int) and isinstance(b, int):
+          return a // b #returns an int
+      ```
+      This would return an integer instead of a float when both input-values of 'divide' are of type 'int'.  
+      --> If this feature was added to the functions´ code, the accompanying unittest 'test_divide_valid_inputs_correct_datatype'  
+      would of course fail, because the functions promis / contract was broken by adding this new feature.  
+      ```python
+      #The accompanying unittest:
+      @pytest.mark.parametrize(
+          "a, b",
+          [
+              (2, 4), #two positive numbers
+              (2, -5), #one positive and one negative number
+              (-2.5, -5), #two negative numbers (one is float)
+              (0, 0.01), #numerator is zero (denominator is float)
+          ]
+      )
+      def test_divide_valid_inputs_correct_datatype(a, b):
+          assert isinstance(Calculator.divide(a, b), float)
+      ```
+    
+    - Now, the question arises how to handle this case:
+      - A: The programmer could implement this new feature, adjust the functions´ docstring accordingly and adjust  
+           the related unittest 'test_divide_valid_inputs_correct_datatype'.
+           --> However, that would mean that the functions´ promise/contract was changed.
+      - B: The programmer could leave the function 'divide' as is (maybe rename it to 'divide_floats'), and not implement this new feature in there.  
+           Instead, they could create a completely new function for exactly this new feature (e.g. 'divide_integer'),  
+           and write accompanying test cases for this new function.  
+      
+      --> Both approaches have advantages and disadvantages:
+      - Approach A has the advantage that potential code-duplication due to creating two very similar functions could be avoided.  
+        However, is has the disadvantage that since the contract of the function 'divide' was broken, it is well possible,  
+        that other parts of the project, which use 'divide' and rely on 'divide' returning only floats, might now break due to  
+        the contract change.  
+        ***-->Unit-tests for 'divide' will not capture those potential code-breaks down the line. To detect those potential code-breaks  
+        I would argue that other kinds of tests, like integration-tests for example, are necessary, which check if multiple units  
+        work together correctly.***  
+      - Approach B has the advantage that parts of the code, which rely on the "old" / current contract of 'divide' don´t break potentially,  
+        because 'divide' was not changed.  
+        However, as already pointed out above, the disadvantage is that code-duplication might happen and thus the maintainability of the  
+        codebase might be corrupted by that.  
+           
+      --> This example showed the limits of unittests.  
+      --> Probably in practice in every case an individual decision must be made which approach makes more sense.  
+
+- **How to properly structure and format function docstrings**
+
+- **Raising domain-specific custom Exceptions instead of built-in Exceptions is a practice of clean code.**  
+    - By doing that, implementation-details are hidden from the caller; they don´t need to know or reason about  
+      how the respective function was implemented (based off of an Exception it threw).
+  
+    - Furthermore, using domain-specific custom Exceptions makes code-maintainance more easy, because when refactoring  
+      for example, it is more unlikely that the exceptions used in the accompanying unit-tests need to be changed / adapted  
+      too if domain-specific custom Exceptions are used compared to when built-in, very specific exceptions are used.
+
+- **How pytest handles the context-manager 'with pytest.raises([SomeException])'**
+    - When using the context-manager 'with pytest.raises([SomeException]'), only one function which is expected to raise  
+      this exception must be contained in that context-manager.  
+      *-->Reason:* As soon as a function in that context-manager actually raises the specified exception, the context-manager    
+      is exited immediately. Thus all other code that comes below that function which rose the specified exception is dead code.
+
+      -->As a consequence, per context-manager with 'with pytest.raises([SomeException])' only one function, which is expected
+      to raise 'SomeException' must be contained.
+
+- **How to use pytests 'parameterize' to avoid code duplication in test-functions**
+
+  Instead of having repeating function-calls resp. 'assert'-statements with just different parameters, like this:
+  ```python
+  @staticmethod
+  def test_divide_valid_inputs():
+      assert Calculator.divide(a=2, b=4) == 0.5 #two positive numbers
+      assert Calculator.divide(a=2, b=-5) == -0.4 #one positive and one negative number
+      assert Calculator.divide(a=-2.5, b=-5) == 0.5 #two negative numbers (one is float)
+      assert Calculator.divide(a=0, b=0.01) == 0 #numerator is zero (denominator is float)
+  ```
+
+  the test-function can be decorated with the parameters and expected value(s), like so:
+  ```python
+  @staticmethod
+  @pytest.mark.parametrize(
+      "a, b, expected",
+      [
+          (2, 4, 0.5), #two positive numbers
+          (2, -5, -0.4), #one positive and one negative number
+          (-2.5, -5, 0.5), #two negative numbers (one is float)
+          (0, 0.01, 0), #numerator is zero (denominator is float)
+      ]
+  )
+  def test_divide_valid_inputs(a, b, expected):
+      assert Calculator.divide(a, b) == expected
+  ```
+
+  When using 'pytest.mark.parameterization', pytest creates one separate test case resp. one separate call of the test-function  
+  ('test_divide_valid_inputs' in the above example) for every set of parameters.  
+
+  Using test-parameterization makes the test code more readable, maintainable and scalable.  
 
 - XXX

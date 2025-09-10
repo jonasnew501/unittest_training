@@ -1,3 +1,7 @@
+# Packaging / build artifacts
+*.egg-info/
+*.egg
+
 # Byte-compiled / cache files
 __pycache__/
 *.py[cod]
