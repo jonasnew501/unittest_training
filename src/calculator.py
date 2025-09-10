@@ -30,4 +30,4 @@ class Calculator:
             return a/b
 
 
-# print(Calculator.divide(2,0))
+print(Calculator.divide(2,0))

@@ -1,7 +1,7 @@
 import pytest
 
 # from ...unittest_training.src.calculator import DivisionByZeroError, Calculator
-from calculator import DivisionError, Calculator
+from src.calculator import DivisionError, Calculator
 
 
 class TestCalculator:
