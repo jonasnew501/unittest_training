@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,13 +8,11 @@ version = "0.1.0"
 description = "A toy project for practicing Unittests in Python via Pytest and CI via GitHub Actions."
 authors = [{ name = "Jonas Neumayer" }]
 dependencies = []
-
-[tool.pytest.ini_options]
-pythonpath = ["src"]
-
-[tool.setuptools]
-package-dir = {"" = "src"}
+requires-python = ">=3.9"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
 
