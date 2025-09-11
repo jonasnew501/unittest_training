@@ -13,6 +13,7 @@ requires-python = ">=3.9"
 [tool.setuptools.packages.find]
 where = ["src"]
 
-# [tool.pytest.ini_options]
-# pythonpath = ["unittest_training"]
-
+[tool.pytest.ini_options]
+testpaths = ["tests"] 
+python_files = ["test_*.py"]
+pythonpath = ["unittest_training"]
