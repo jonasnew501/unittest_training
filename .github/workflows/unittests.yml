@@ -27,5 +27,9 @@ jobs:
         run: |
           pip install -e .
       
+      - name: Clean pycache
+        run: |
+          find . -type d -name "__pycache__" -exec rm -r {} +
+      
       - name: Run tests
         run: pytest
