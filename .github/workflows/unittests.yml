@@ -1,0 +1,23 @@
+name: Unittests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  run_unittests:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Setup environment
+      uses: ./.github/actions/env_setup
+      with:
+        python-version: "3.13.7"
+        
+    - name: Clean pycache
+      run: |
+        find . -type d -name "__pycache__" -exec rm -r {} +
+    
+    - name: Run unittests
+      run: pytest

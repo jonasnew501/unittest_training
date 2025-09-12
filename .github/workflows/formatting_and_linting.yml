@@ -8,9 +8,12 @@ on:
 
 jobs:
   format_code:
-    uses: ./.github/workflows/reusable/env_setup.yml
-    with:
-      python-version: "3.13.7"
+    runs-on: ubuntu-latest
     steps:
+      - name: Setup environment
+        uses: ./.github/actions/env_setup
+        with:
+          python-version: "3.13.7"
+
       - name: Run black (check only)
         run: black --check .
