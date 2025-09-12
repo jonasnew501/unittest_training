@@ -1,4 +1,4 @@
-name: Formatting_and_linting
+name: Unittests
 
 on:
   push:
