@@ -1,0 +1,16 @@
+name: Formatting_and_linting
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  format_code:
+    uses: .github/workflows/reusable/env_setup.yml
+    with:
+      python-version: "3.13.7"
+    steps:
+      - name: Run black (check only)
+        run: black --check .
