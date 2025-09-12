@@ -19,6 +19,9 @@ class InvalidInputError(Exception):
     pass
 
 
+
+
+
 class Calculator:
     @staticmethod
     def divide(a: Union[int, float], b: Union[int, float]) -> Union[int, float]:
