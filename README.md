@@ -5,6 +5,9 @@ Also, the conduction of CI ('Continuous Integration') via GitHub Actions, i.e. t
 of the unittests on certain actions (e.g. with every push to the remote repository) via a YAML-file
 is practiced.
 
+## Status overview
+![Run Unittests](https://github.com/jonasnew501/unittest_training/actions/workflows/unittests.yml/badge.svg)
+
 
 
 ## What I Learned
