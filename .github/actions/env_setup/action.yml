@@ -6,12 +6,12 @@ inputs:
     description: "The version of Python to set up"
     required: true
     type: string
-    
+
 runs:
   using: "composite"
   steps:
     - name: Check out code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v5
     
     - name: Set up Python
       uses: actions/setup-python@v4
