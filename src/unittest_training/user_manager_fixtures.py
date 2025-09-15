@@ -5,6 +5,7 @@ class DuplicateUserError(Exception):
 
     pass
 
+
 class InvalidInputError(Exception):
     """
     A custom domain-specific Exception
@@ -26,11 +27,13 @@ class UserManager:
 
     def addUser(self, username: str, email: str) -> bool:
         if not isinstance(username, str) and not isinstance(email, str):
-            raise InvalidInputError("Both 'username' and 'email' need to be of type 'str'.")
+            raise InvalidInputError(
+                "Both 'username' and 'email' need to be of type 'str'."
+            )
 
         if username in self.users:
             raise DuplicateUserError("User already exists.")
-        
+
         self.users[username] = email
         return True
 
