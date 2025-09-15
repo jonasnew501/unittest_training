@@ -9,10 +9,7 @@ inputs:
 
 runs:
   using: "composite"
-  steps:
-    - name: Check out code
-      uses: actions/checkout@v5
-    
+  steps:    
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
