@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup environment
-        uses: ./.github/actions/env_setup
+        uses: /.github/actions/env_setup
         with:
           python-version: "3.13.7"
 
