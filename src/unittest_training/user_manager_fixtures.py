@@ -34,6 +34,13 @@ class UserManager:
         self.users[username] = email
         return True
 
-    def getUser(self, username) -> dict:
+    def getUserEmail(self, username) -> str:
         if username in self.users:
-            self.users.get(key=username)
+            return self.users.get(username)
+
+
+user_manager = UserManager()
+user_manager.addUser(username="Jonas Neumayer", email="jonas.neumayer@test.de")
+print(user_manager.users)
+print(user_manager.getUserEmail(username="Jonas Neumayer"))
+print(user_manager.users)
