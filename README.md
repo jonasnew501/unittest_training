@@ -7,7 +7,7 @@ is practiced.
 
 ## Status overview
 ![Unittests](https://github.com/jonasnew501/unittest_training/actions/workflows/unittests.yml/badge.svg)
-![Auto-checking for correct code-format via "Black"](https://github.com/jonasnew501/unittest_training/actions/workflows/formatting_and_linting.yml/badge.svg)
+![Check for correct code-format](https://github.com/jonasnew501/unittest_training/actions/workflows/formatting_and_linting.yml/badge.svg)
 
 
 
