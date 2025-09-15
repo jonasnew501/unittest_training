@@ -22,6 +22,8 @@ jobs:
       - name: Clean pycache
         run: |
           find . -type d -name "__pycache__" -exec rm -r {} +
+        shell: bash
       
       - name: Run unittests
         run: pytest
+        shell: bash
