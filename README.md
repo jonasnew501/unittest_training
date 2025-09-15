@@ -6,7 +6,8 @@ of the unittests on certain actions (e.g. with every push to the remote reposito
 is practiced.
 
 ## Status overview
-![Run Unittests](https://github.com/jonasnew501/unittest_training/actions/workflows/callers/unittests.yml/badge.svg)
+![Unittests](https://github.com/jonasnew501/unittest_training/actions/workflows/unittests.yml/badge.svg)
+![Auto-checking for correct code-format via "Black"](https://github.com/jonasnew501/unittest_training/actions/workflows/formatting_and_linting.yml/badge.svg)
 
 
 
