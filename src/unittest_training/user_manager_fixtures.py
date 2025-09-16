@@ -15,6 +15,15 @@ class InvalidInputError(Exception):
     pass
 
 
+class MissingUserError(Exception):
+    """
+    A custom domain-specific Exception
+    for when a requested user is not contained in the database.
+    """
+
+    pass
+
+
 class UserManager:
     """
     Manages a collection of users.
@@ -26,7 +35,7 @@ class UserManager:
         self.users = {}
 
     def addUser(self, username: str, email: str) -> bool:
-        if not isinstance(username, str) and not isinstance(email, str):
+        if not isinstance(username, str) or not isinstance(email, str):
             raise InvalidInputError(
                 "Both 'username' and 'email' need to be of type 'str'."
             )
@@ -38,8 +47,15 @@ class UserManager:
         return True
 
     def getUserEmail(self, username) -> str:
-        if username in self.users:
-            return self.users.get(username)
+        if not isinstance(username, str):
+            raise InvalidInputError(
+                "'username' needs to be of type 'str'."
+            )
+        
+        if username not in self.users:
+            raise MissingUserError("The user you look for is not contained in the database.")
+        
+        return self.users.get(username)
 
 
 user_manager = UserManager()
