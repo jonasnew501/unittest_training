@@ -48,13 +48,13 @@ class UserManager:
 
     def getUserEmail(self, username) -> str:
         if not isinstance(username, str):
-            raise InvalidInputError(
-                "'username' needs to be of type 'str'."
-            )
-        
+            raise InvalidInputError("'username' needs to be of type 'str'.")
+
         if username not in self.users:
-            raise MissingUserError("The user you look for is not contained in the database.")
-        
+            raise MissingUserError(
+                "The user you look for is not contained in the database."
+            )
+
         return self.users.get(username)
 
 
