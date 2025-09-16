@@ -2,9 +2,9 @@ name: Unittests
 
 on:
   push:
-    branches: [main]
+    branches: [main, Fixtures]
   pull_request:
-    branches: [main]
+    branches: [main, Fixtures]
 
 jobs:
   run_unittests:

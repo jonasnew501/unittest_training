@@ -2,9 +2,9 @@ name: Formatting_and_linting
 
 on:
   push:
-    branches: [main]
+    branches: [main, Fixtures]
   pull_request:
-    branches: [main]
+    branches: [main, Fixtures]
 
 jobs:
   format_code:
