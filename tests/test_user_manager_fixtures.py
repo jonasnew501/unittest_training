@@ -11,7 +11,6 @@ from unittest_training.user_manager_fixtures import (
 
 
 class TestUserManager:
-
     @staticmethod
     @pytest.fixture
     def user_manager() -> UserManager:
@@ -22,6 +21,19 @@ class TestUserManager:
             UserManager: The new instance of UserManager.
         """
         return UserManager()
+
+    @pytest.mark.parametrize(
+        "username, email",
+        [
+            ("Jonas Neumayer" , 3.5), #valid username, invalid email
+            (384, "jonas.neumayer@test.de"), #invalid username, valid email
+            (3249, 294.32), #invalid username, invalid email
+        ]
+    )
+    def test_addUser_invalid_inputs(username, email):
+        with pytest.raises(InvalidInputError, match="Both 'username' and 'email' need to be of type 'str'."):
+            UserManager.addUser(username=username, email=email)
+
 
     @staticmethod
     @pytest.mark.parametrize(
