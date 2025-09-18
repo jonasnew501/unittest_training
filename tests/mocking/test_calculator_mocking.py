@@ -1,6 +1,6 @@
 import pytest
 
-from unittest_training.calculator_mocking import (
+from unittest_training.mocking.calculator_mocking import (
     InvalidInputError,
     CalculatorMocking,
 )
@@ -23,7 +23,7 @@ class TestCalculatorMocking:
     @staticmethod
     def test_multiply_valid_inputs_with_mock(mocker):
         fake_add = mocker.patch(
-            "unittest_training.calculator_mocking.CalculatorMocking.add",
+            "unittest_training.mocking.calculator_mocking.CalculatorMocking.add",
             return_value=10,
         )
 

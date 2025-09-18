@@ -1,6 +1,6 @@
 import pytest
 
-from unittest_training.user_manager_fixtures import (
+from unittest_training.fixtures.user_manager_fixtures import (
     DuplicateUserError,
     InvalidInputError,
     MissingUserError,
