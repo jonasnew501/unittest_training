@@ -1,6 +1,6 @@
 import pytest
 
-from unittest_training.calculator import (
+from unittest_training.calculator_basics import (
     DivisionByZeroError,
     InvalidInputError,
     Calculator,
