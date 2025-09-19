@@ -68,10 +68,10 @@ class TextfileWriter:
 
         try:
             os.fsync(file_handle.fileno())
-            print("Flushed safely to disk")
+            print("Flushed safely to disk.")
             return True
         except OSError as e:
-            print("Flush failed:", e)
+            print(f"Flush failed. Exception: {e}.")
             return False
 
     @staticmethod
@@ -150,3 +150,8 @@ class TextfileWriter:
         except Exception as e:
             print(f"File handle could not be closed. Exception: {e}.")
             return False
+
+
+
+#-----TEST----------
+TextfileWriter.process_textfile(text_to_write=text_to_write, file_path=file_path)
