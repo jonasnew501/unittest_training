@@ -10,33 +10,45 @@ current_dir_path = os.path.dirname(current_file_path)
 file_path = os.path.realpath(os.path.join(current_dir_path, filename))
 
 
-#Implementation without context-manager for handling textfiles
+# Implementation without context-manager for handling textfiles
 class TextfileWriter:
     @staticmethod
     def process_textfile(text_to_write: str, file_path: str):
         try:
-            #create file in write mode
-            file_handle = TextfileWriter._create_file(file_path=file_path, mode='w')
+            # create file in write mode
+            file_handle = TextfileWriter._create_file(file_path=file_path, mode="w")
 
             was_write_succesful = False
-            #write to file
-            was_write_succesful = TextfileWriter._write_to_file(file_handle=file_handle, text_to_write=text_to_write)
-            print("Writing to file was successful." if was_write_succesful else "Writing to file was not successful.")
+            # write to file
+            was_write_succesful = TextfileWriter._write_to_file(
+                file_handle=file_handle, text_to_write=text_to_write
+            )
+            print(
+                "Writing to file was successful."
+                if was_write_succesful
+                else "Writing to file was not successful."
+            )
         except:
-            #rollback: if file was already created, delete the file again
+            # rollback: if file was already created, delete the file again
             if TextfileWriter._check_for_file_presence(file_path=file_path):
                 TextfileWriter._delete_file(file_path=file_path)
         finally:
-            #cleanup: close the file-handle
+            # cleanup: close the file-handle
             if TextfileWriter._check_for_open_file_handle(file_handle=file_handle):
-                was_file_handle_closed = TextfileWriter._close_file_handle(file_handle=file_handle)
-                print("File_handle was closed." if was_file_handle_closed else "File_handle was not closed.")
-    
+                was_file_handle_closed = TextfileWriter._close_file_handle(
+                    file_handle=file_handle
+                )
+                print(
+                    "File_handle was closed."
+                    if was_file_handle_closed
+                    else "File_handle was not closed."
+                )
+
     @staticmethod
     def _create_file(file_path: str, mode: str) -> TextIOWrapper:
         file_handle = open(file=file_path, mode=mode)
         return file_handle
-    
+
     @staticmethod
     def _write_to_file(file_handle: TextIOWrapper, text_to_write: str) -> bool:
         """
@@ -46,7 +58,7 @@ class TextfileWriter:
             file_handle (TextIOWrapper): The file-handle in writable-mode where
                                          'text_to_write' shall be written to.
             text_to_write (str): The text that shall be written to the file.
-        
+
         Returns:
             (bool): True, if the text was successfully written to the file,
                     False otherwise.
@@ -61,7 +73,7 @@ class TextfileWriter:
         except OSError as e:
             print("Flush failed:", e)
             return False
-    
+
     @staticmethod
     def _check_for_file_presence(file_path: str) -> bool:
         """
@@ -70,7 +82,7 @@ class TextfileWriter:
         Args:
             file_path (str): The absolute file path to check for
                              existance of the file.
-        
+
         Returns:
             (bool): True, if the file exists at 'file_path',
                     False otherwise.
@@ -99,7 +111,7 @@ class TextfileWriter:
             return True
         else:
             return False
-    
+
     @staticmethod
     def _check_for_open_file_handle(file_handle: TextIOWrapper) -> bool:
         """
@@ -107,7 +119,7 @@ class TextfileWriter:
 
         Args:
             file_handle (TextIOWrapper): The file_handle to check.
-        
+
         Returns:
             (bool): True, if the file_handle is open,
                     False otherwise.
@@ -127,7 +139,7 @@ class TextfileWriter:
                                          The assumption is that file_handle
                                          is opened at the time of calling
                                          this function at hand.
-        
+
         Returns:
             (bool): True, if the file_handle was closed,
                     False otherwise.
