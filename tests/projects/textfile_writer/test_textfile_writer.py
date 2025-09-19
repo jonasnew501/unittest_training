@@ -1,8 +1,8 @@
 import pytest
 
-from unittest_training.projects.textfile_writer.textfile_writer import(
+from unittest_training.projects.textfile_writer.textfile_writer import (
     TextfileWriter,
-    file_path
+    file_path,
 )
 
 
@@ -31,16 +31,18 @@ class TestTextfileWriter:
         *The file-handle cannot be closed.
             -->Desired behavior: A custom Exception is raised.
     """
+
     @staticmethod
     @pytest.mark.parametrize(
         "text_to_write, file_path",
         [
             ("SomeString", file_path),
             ("", file_path),
-
-        ]
+        ],
     )
     def test_process_textfile_valid_inputs(text_to_write: str, file_path: str):
-        TextfileWriter.process_textfile(text_to_write=text_to_write, file_path=file_path)
+        TextfileWriter.process_textfile(
+            text_to_write=text_to_write, file_path=file_path
+        )
 
         #
