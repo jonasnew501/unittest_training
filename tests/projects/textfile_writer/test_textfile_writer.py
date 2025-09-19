@@ -30,6 +30,12 @@ class TestTextfileWriter:
             -->Desired behavior: A custom Exception is raised.
         *The file-handle cannot be closed.
             -->Desired behavior: A custom Exception is raised.
+    
+    It is important to specify the conceptualization of the textfile_writer-application:
+    There is one "main"-function "process_textfile", and multiple helper-functions (with
+    a leading "_" in their name). Process_textfile brings together all those helper-functions
+    in a sensible way. The only function to be called by a user is "process_textfile", the
+    helper-functions are not intended to be called from the outside of the class "TextfileWriter".
     """
 
     @staticmethod
