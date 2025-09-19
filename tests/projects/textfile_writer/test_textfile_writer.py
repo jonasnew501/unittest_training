@@ -30,7 +30,7 @@ class TestTextfileWriter:
             -->Desired behavior: A custom Exception is raised.
         *The file-handle cannot be closed.
             -->Desired behavior: A custom Exception is raised.
-    
+
     It is important to specify the conceptualization of the textfile_writer-application:
     There is one "main"-function "process_textfile", and multiple helper-functions (with
     a leading "_" in their name). Process_textfile brings together all those helper-functions
