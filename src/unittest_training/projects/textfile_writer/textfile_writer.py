@@ -152,6 +152,5 @@ class TextfileWriter:
             return False
 
 
-
-#-----TEST----------
+# -----TEST----------
 TextfileWriter.process_textfile(text_to_write=text_to_write, file_path=file_path)
