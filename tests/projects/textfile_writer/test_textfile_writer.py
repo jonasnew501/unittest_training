@@ -1,14 +1,18 @@
+import os
 import pytest
 
 from unittest_training.projects.textfile_writer.textfile_writer import (
     TextfileWriter,
+    text_to_write,
+    filename,
+    current_dir_path,
     file_path,
 )
 
 
 class TestTextfileWriter:
     """
-    This class holds the Unittest-cases for textfile-writer-application
+    This class holds the Unittest-cases for the textfile-writer-application
     in 'unittest_training.projects.textfile_writer.textfile_writer.TextfileWriter'.
 
     In the following, an overview is given about both the happy path and potential,
@@ -20,7 +24,7 @@ class TestTextfileWriter:
         *The txt-file is created at the specified path, the specific text is written
          to the buffer, the buffer is flushed (i.e. the text is actually written to
          the file), and the file-handle is closed.
-    -Unhappy Paths:
+    - Unhappy Paths:
         *The file cannot be created.
             -->Desired behavior: A custom Exception is raised.
         *The writing to the file fails (OSError on flush).
@@ -38,17 +42,79 @@ class TestTextfileWriter:
     helper-functions are not intended to be called from the outside of the class "TextfileWriter".
     """
 
+    #-----unittests for the happy-path----------
     @staticmethod
     @pytest.mark.parametrize(
-        "text_to_write, file_path",
+        "text_to_write",
         [
-            ("SomeString", file_path),
-            ("", file_path),
+            ("SomeString"),
+            (""),
         ],
     )
-    def test_process_textfile_valid_inputs(text_to_write: str, file_path: str):
+    def test_process_textfile_valid_inputs(mocker, tmp_path, text_to_write: str):
+        file_path = tmp_path / filename
+
+        #This patching is done resp. belongs to checking for a closed file-handle
+        # - Option B below in this function at hand
+        mock_file_handle_close = mocker.patch.object(TextfileWriter, "_close_file_handle", wraps=TextfileWriter._close_file_handle)
+
         TextfileWriter.process_textfile(
             text_to_write=text_to_write, file_path=file_path
         )
 
-        #
+        #checking if the generated file actually exists in the desired location
+        #checking for the full path
+        assert os.path.exists(path=file_path)
+
+        #checking if the .txt-file actually exists in the specified directory
+        assert filename.split(".")[1] == "txt" and \
+            filename in os.listdir(tmp_path)
+        
+        #checking if the specified text was actually written to the .txt-file
+        with open(file_path, "r") as f:
+            file_content = f.read()
+            assert file_content == text_to_write
+        
+        #checking if the file-handle is closed
+        #Option A:
+        #Trying to re-open the file in write-mode would lead to an exception
+        #if the file-handle was originally opened in write-mode and not closed
+        #yet again (at least on Windows). If re-opening that file in write-mode
+        #does work here, and if this test is ran on a Windows-operated machine,
+        #it can be inferred that the file-handle has been closed previously
+        #inside ('TextfileWriter.process_textfile').
+        try:
+            with open(file_path, "w") as f:
+                pass
+        except Exception as e:
+            pytest.fail(f"The file-handle was not closed properly: {e}")
+        
+        #Option B:
+        #It is checked, whether the helper-function for closing the file-handle
+        #("TextfileWriter._close_file_handle") was actually called.
+        #This is done by mocking this exact function with itself, so actually,
+        #the function is still called normally witout any changed behavior,
+        #but it´s call(s) are recorded.
+        #Note!: It is important to note that checking the call of
+        #       "TextfileWriter._close_file_handle" is of course only a proxy
+        #       for checking for a closed file handle. It could be that
+        #       "TextfileWriter._close_file_handle" itself is buggy,
+        #       i.e. fails silently, but actually does not close the open
+        #       file-handle.
+        #       So this option B of course is only valid if the helper-function
+        #       (i.e. "TextfileWriter._close_file_handle") itself is tested
+        #       successfully by one (or more) unittests.
+
+        mock_file_handle_close.assert_called_once()
+
+
+    #-------------------------------------------
+
+
+
+
+
+    #-----unittests for the unhappy-paths-------
+
+
+    #-------------------------------------------
