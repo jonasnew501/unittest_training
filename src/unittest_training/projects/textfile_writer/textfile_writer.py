@@ -10,8 +10,7 @@ current_dir_path = os.path.dirname(current_file_path)
 file_path = os.path.realpath(os.path.join(current_dir_path, filename))
 
 
-
-#-----Custom, domain-specific exceptions--------
+# -----Custom, domain-specific exceptions--------
 class FileCreationError(Exception):
     """
     A custom domain-specific Exception
@@ -20,7 +19,8 @@ class FileCreationError(Exception):
 
     pass
 
-#-----------------------------------------------
+
+# -----------------------------------------------
 
 
 # Implementation without context-manager for handling textfiles
@@ -65,7 +65,7 @@ class TextfileWriter:
             file_handle = open(file=file_path, mode=mode)
         except:
             raise FileCreationError
-        
+
         return file_handle
 
     @staticmethod
