@@ -10,10 +10,24 @@ current_dir_path = os.path.dirname(current_file_path)
 file_path = os.path.realpath(os.path.join(current_dir_path, filename))
 
 
+
+#-----Custom, domain-specific exceptions--------
+class FileCreationError(Exception):
+    """
+    A custom domain-specific Exception
+    for when a file cannot be created.
+    """
+
+    pass
+
+#-----------------------------------------------
+
+
 # Implementation without context-manager for handling textfiles
 class TextfileWriter:
     @staticmethod
     def process_textfile(text_to_write: str, file_path: str):
+        file_handle = None
         try:
             # create file in write mode
             file_handle = TextfileWriter._create_file(file_path=file_path, mode="w")
@@ -34,19 +48,24 @@ class TextfileWriter:
                 TextfileWriter._delete_file(file_path=file_path)
         finally:
             # cleanup: close the file-handle
-            if TextfileWriter._check_for_open_file_handle(file_handle=file_handle):
-                was_file_handle_closed = TextfileWriter._close_file_handle(
-                    file_handle=file_handle
-                )
-                print(
-                    "File_handle was closed."
-                    if was_file_handle_closed
-                    else "File_handle was not closed."
-                )
+            if file_handle is not None:
+                if TextfileWriter._check_for_open_file_handle(file_handle=file_handle):
+                    was_file_handle_closed = TextfileWriter._close_file_handle(
+                        file_handle=file_handle
+                    )
+                    print(
+                        "File_handle was closed."
+                        if was_file_handle_closed
+                        else "File_handle was not closed."
+                    )
 
     @staticmethod
     def _create_file(file_path: str, mode: str) -> TextIOWrapper:
-        file_handle = open(file=file_path, mode=mode)
+        try:
+            file_handle = open(file=file_path, mode=mode)
+        except:
+            raise FileCreationError
+        
         return file_handle
 
     @staticmethod

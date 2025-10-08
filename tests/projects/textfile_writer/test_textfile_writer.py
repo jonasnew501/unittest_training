@@ -3,6 +3,7 @@ import pytest
 
 from unittest_training.projects.textfile_writer.textfile_writer import (
     TextfileWriter,
+    FileCreationError,
     text_to_write,
     filename,
     current_dir_path,
@@ -41,6 +42,17 @@ class TestTextfileWriter:
     in a sensible way. The only function to be called by a user is "process_textfile", the
     helper-functions are not intended to be called from the outside of the class "TextfileWriter".
     """
+
+    #-----unittests for helper-functions--------
+    @staticmethod
+    def test_close_file_handle(tmp_path):
+        file_path = tmp_path / "Testfile.txt"
+
+        with open(file_path, "w") as f:
+            assert not f.closed
+            TextfileWriter._close_file_handle(file_handle=f)
+            assert f.closed
+    #-------------------------------------------
 
     #-----unittests for the happy-path----------
     @staticmethod
@@ -112,9 +124,19 @@ class TestTextfileWriter:
 
 
 
-
-
     #-----unittests for the unhappy-paths-------
+    @staticmethod
+    def test_process_textfile_file_cannot_be_created(mocker, tmp_path):
+        #mocking the builtin-function "open" to fail,
+        #i.e. not creating the file but raise an exception
+        mocker.patch("builtins.open", side_effect=OSError("cannot create file"))
+
+        file_path = tmp_path / "testfile.txt"
+
+        #checking if on the level of "TextfileWriter.process_textfile" the expected
+        #custom, domain-specific error occurs
+        with pytest.raises(FileCreationError):
+            TextfileWriter.process_textfile(text_to_write="Some text", file_path=file_path)
 
 
     #-------------------------------------------
