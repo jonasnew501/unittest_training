@@ -46,7 +46,7 @@ class TextfileWriter:
             # rollback: if file was already created, delete the file again
             if TextfileWriter._check_for_file_presence(file_path=file_path):
                 TextfileWriter._delete_file(file_path=file_path)
-            
+
             raise e
         finally:
             # cleanup: close the file-handle
