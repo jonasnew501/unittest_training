@@ -42,10 +42,12 @@ class TextfileWriter:
                 if was_write_succesful
                 else "Writing to file was not successful."
             )
-        except:
+        except Exception as e:
             # rollback: if file was already created, delete the file again
             if TextfileWriter._check_for_file_presence(file_path=file_path):
                 TextfileWriter._delete_file(file_path=file_path)
+            
+            raise e
         finally:
             # cleanup: close the file-handle
             if file_handle is not None:
