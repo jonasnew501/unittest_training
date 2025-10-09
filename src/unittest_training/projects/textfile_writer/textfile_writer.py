@@ -122,24 +122,22 @@ class TextfileWriter:
             return False
 
     @staticmethod
-    def _delete_file(file_path: str) -> bool:
+    def _delete_file(file_path: str):
         """
         Deletes the file at 'file_path'.
 
         Args:
             file_path (str): The absolute file path of the file
                              that shall be deleted.
-
-        Returns:
-            (bool): True, if file was successfully deleted,
-                    False otherwise.
+        
+        Raises:
+            FileDeletionError: If the file could not be deleted.
         """
-        os.remove(path=file_path)
+        try:
+            os.remove(path=file_path)
+        except:
+            raise FileDeletionError
 
-        if not os.path.exists(path=file_path):
-            return True
-        else:
-            return False
 
     @staticmethod
     def _check_for_open_file_handle(file_handle: TextIOWrapper) -> bool:
