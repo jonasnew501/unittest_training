@@ -19,6 +19,14 @@ class FileCreationError(Exception):
 
     pass
 
+class FileDeletionError(Exception):
+    """
+    A custom domain-specific Exception
+    for when a file cannot be deleted.
+    """
+
+    pass
+
 
 # -----------------------------------------------
 
