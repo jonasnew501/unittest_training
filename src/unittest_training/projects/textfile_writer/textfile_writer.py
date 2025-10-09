@@ -19,6 +19,7 @@ class FileCreationError(Exception):
 
     pass
 
+
 class FileDeletionError(Exception):
     """
     A custom domain-specific Exception
@@ -129,7 +130,7 @@ class TextfileWriter:
         Args:
             file_path (str): The absolute file path of the file
                              that shall be deleted.
-        
+
         Raises:
             FileDeletionError: If the file could not be deleted.
         """
@@ -137,7 +138,6 @@ class TextfileWriter:
             os.remove(path=file_path)
         except:
             raise FileDeletionError
-
 
     @staticmethod
     def _check_for_open_file_handle(file_handle: TextIOWrapper) -> bool:

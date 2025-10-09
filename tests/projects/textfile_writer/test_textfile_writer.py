@@ -5,6 +5,7 @@ import pytest
 from unittest_training.projects.textfile_writer.textfile_writer import (
     TextfileWriter,
     FileCreationError,
+    FileDeletionError,
     text_to_write,
     filename,
     current_dir_path,
@@ -194,5 +195,45 @@ class TestTextfileWriter:
         # checking if the the rollback was actually conducted, i.e. whether the file
         # was actually deleted again.
         assert not os.path.exists(file_path)
+
+    @staticmethod
+    def test_process_textfile_file_cannot_be_deleted(mocker, tmp_path):
+        file_path = tmp_path / "testfile.txt"
+
+        # mocking "os.remove" to raise a OSError instead of actually deleting
+        # the object passed in
+        mocker.patch("os.remove", side_effect=OSError("File cannot be deleted"))
+
+        # mocking "_create_file" again (as in "test_process_textfile_check_rollback_functionality")
+        # to simulate a failing flush and thereby envoke a rollback-behavior
+        mock_flush = mocker.Mock()
+        mock_flush.write.return_value = None
+        mock_flush.flush.side_effect = OSError("flush failed")
+        mocker.patch.object(TextfileWriter, "_create_file", return_value=mock_flush)
+
+        # manually creating the file
+        file_path.touch()
+
+        # expecting "process_textfile" to raise resp. to receive the
+        # custom exception "FileDeletionError".
+        # Note that before this exception, the OSError from the "flush"
+        # was raised, however, this FileDeletionError was actually raised
+        # after that from inside "_delete_file", which is why this (latest)
+        # exception needs be expected here.
+        with pytest.raises(FileDeletionError):
+            TextfileWriter.process_textfile(
+                text_to_write="Some text", file_path=file_path
+            )
+
+        # Checking if the mock-objects were actually called as expected
+        mock_flush.write.assert_called_once_with("Some text")
+        mock_flush.flush.assert_called_once()
+
+        # expecting "process_textfile" to raise resp. to receive the
+        # custom Exception
+        # with pytest.raises(FileDeletionError):
+
+        # checking if the file still exists at the file_path
+        assert os.path.exists(file_path)
 
     # -------------------------------------------
