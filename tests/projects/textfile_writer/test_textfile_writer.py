@@ -1,4 +1,5 @@
 import os
+from io import TextIOWrapper
 import pytest
 
 from unittest_training.projects.textfile_writer.textfile_writer import (
@@ -140,5 +141,58 @@ class TestTextfileWriter:
             TextfileWriter.process_textfile(
                 text_to_write="Some text", file_path=file_path
             )
+
+    @staticmethod
+    def test_process_textfile_check_rollback_functionality(mocker, tmp_path):
+        file_path = tmp_path / "testfile.txt"
+
+        # mocking the "flush"-function of "TextIOWrapper" to fail
+        # However, this doesn´t work for technical reasons. This is why an alternative
+        # (see below) was necessary.
+        # flush_fail = mocker.patch.object(TextIOWrapper, "flush", side_effect=OSError("flush failed"))
+
+        # Alternatively to mocking the "flush"-function of "TextIOWrapper" directly:
+        # Creating an own mock-object, setting the return_value of "write" to None,
+        # setting the side_effect on "flush", and then passing this whole mock-object
+        # as a fake file-handle to "_create_file".
+        # Reason: In the main-method "process_textfile" "_create_file" returns a
+        #        file-handle, which is then passed on to "_write_to_file".
+        #        "_write_to_file" will call "write()" and "flush()" on this file-handle.
+        #        If however, now instead of a real file-handle this fake file-handle
+        #        with the retrn_value resp. side_effect set for "write" and "flush"
+        #        is returned from "_create_file" and thus subsequently passed on to
+        #        "_write_to_file", inside "_write_to_file" the call to "file_handle.flush()"
+        #        will raise the OSError set here as a side_effect. This OSError will propagate
+        #        up to "process_textfile" and this Exception is then expected to trigger
+        #        the rollback (i.e. file-deletion) part, which is then checked for here
+        #        further below.
+        mock_flush = mocker.Mock()
+        mock_flush.write.return_value = None
+        mock_flush.flush.side_effect = OSError("flush failed")
+        mocker.patch.object(TextfileWriter, "_create_file", return_value=mock_flush)
+
+        # because with the mock above "_create_file" will actually never be ran
+        # and thus the textfile will actually never be created in the first place,
+        # the file is created at this point manually. Only then it is ensured,
+        # that the rollback-action itself (i.e. the file-deletion) actually
+        # works correctly (see the assert for the non-existing path below
+        # after the rollback was conducted).
+        file_path.touch()
+
+        # calling the main-function
+        # At this point, it is expected that the file is created inside "tmp_path",
+        # but no contents are written to it, since the flush is simulated to fail
+        with pytest.raises(OSError):
+            TextfileWriter.process_textfile(
+                text_to_write="Some text", file_path=file_path
+            )
+
+        # Checking if the mock-objects were actually called as expected
+        mock_flush.write.assert_called_once_with("Some text")
+        mock_flush.flush.assert_called_once()
+
+        # checking if the the rollback was actually conducted, i.e. whether the file
+        # was actually deleted again.
+        assert not os.path.exists(file_path)
 
     # -------------------------------------------
