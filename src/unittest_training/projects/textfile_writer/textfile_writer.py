@@ -28,6 +28,15 @@ class FileDeletionError(Exception):
 
     pass
 
+class FileHandleCloseError(Exception):
+    """
+    A custom domain-specific Exception
+    for when a file handle cannot be
+    closed.
+    """
+
+    pass
+
 
 # -----------------------------------------------
 
