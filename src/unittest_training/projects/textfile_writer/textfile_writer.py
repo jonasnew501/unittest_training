@@ -166,7 +166,7 @@ class TextfileWriter:
             return False
 
     @staticmethod
-    def _close_file_handle(file_handle: TextIOWrapper) -> bool:
+    def _close_file_handle(file_handle: TextIOWrapper):
         """
         Closes the 'file_handle'.
 
@@ -176,16 +176,15 @@ class TextfileWriter:
                                          is opened at the time of calling
                                          this function at hand.
 
-        Returns:
-            (bool): True, if the file_handle was closed,
-                    False otherwise.
+        Raises:
+            FileHandleCloseError: If the file handle could not be closed.
         """
         try:
             file_handle.close()
-            return True
-        except Exception as e:
-            print(f"File handle could not be closed. Exception: {e}.")
-            return False
+
+        except:
+            print(f"File handle could not be closed.")
+            raise FileHandleCloseError
 
 
 # -----TEST----------
