@@ -28,6 +28,7 @@ class FileDeletionError(Exception):
 
     pass
 
+
 class FileHandleCloseError(Exception):
     """
     A custom domain-specific Exception
@@ -70,14 +71,7 @@ class TextfileWriter:
             # cleanup: close the file-handle
             if file_handle is not None:
                 if TextfileWriter._check_for_open_file_handle(file_handle=file_handle):
-                    was_file_handle_closed = TextfileWriter._close_file_handle(
-                        file_handle=file_handle
-                    )
-                    print(
-                        "File_handle was closed."
-                        if was_file_handle_closed
-                        else "File_handle was not closed."
-                    )
+                    TextfileWriter._close_file_handle(file_handle=file_handle)
 
     @staticmethod
     def _create_file(file_path: str, mode: str) -> TextIOWrapper:
@@ -181,7 +175,8 @@ class TextfileWriter:
         """
         try:
             file_handle.close()
-
+            assert file_handle.closed
+            print(f"File handle was closed successfully.")
         except:
             print(f"File handle could not be closed.")
             raise FileHandleCloseError

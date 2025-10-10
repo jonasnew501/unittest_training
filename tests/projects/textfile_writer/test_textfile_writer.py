@@ -6,6 +6,7 @@ from unittest_training.projects.textfile_writer.textfile_writer import (
     TextfileWriter,
     FileCreationError,
     FileDeletionError,
+    FileHandleCloseError,
     text_to_write,
     filename,
     current_dir_path,
@@ -225,7 +226,7 @@ class TestTextfileWriter:
                 text_to_write="Some text", file_path=file_path
             )
 
-        # Checking if the mock-objects were actually called as expected
+        # Checking if the mock-object was actually called as expected
         mock_flush.write.assert_called_once_with("Some text")
         mock_flush.flush.assert_called_once()
 
@@ -234,6 +235,46 @@ class TestTextfileWriter:
         # with pytest.raises(FileDeletionError):
 
         # checking if the file still exists at the file_path
+        assert os.path.exists(file_path)
+
+    @staticmethod
+    def test_process_textfile_file_handle_cannot_be_closed(mocker, tmp_path):
+        file_path = tmp_path / "testfile.txt"
+
+        # create a fake file-handle object, which will simulate an open
+        # file-handle which cannot be closed
+        mock_file_handle = mocker.Mock()
+        mock_file_handle.closed = False
+        mock_file_handle.close.side_effect = OSError("File handle cannot be closed.")
+
+        # mocking '_create_file' to return the above fake file-handle instead of
+        # actually being executed
+        mocker.patch.object(
+            TextfileWriter, "_create_file", return_value=mock_file_handle
+        )
+
+        # mocking '_write_to_file' to return "True" instead of actually being executed
+        mocker.patch.object(TextfileWriter, "_write_to_file", return_value=True)
+
+        # nevertheless manually creating a file at 'file_path'
+        file_path.touch()
+
+        # expecting 'process_textfile' to raise the custom exception for the case
+        # that an open file-handle cannot be closed
+        with pytest.raises(FileHandleCloseError):
+            TextfileWriter.process_textfile(
+                text_to_write="Some text", file_path=file_path
+            )
+
+        # checking if the mock-object was actually called as expected
+        mock_file_handle.close.assert_called_once()
+
+        # asserting that the file-handle is still open
+        assert not mock_file_handle.closed
+
+        # (optional): asserting that the file still exists at the file_path
+        #            Why?: Because '_write_to_file' was patched to return True,
+        #                  and thus the rollback must not have been conducted.
         assert os.path.exists(file_path)
 
     # -------------------------------------------
