@@ -1,9 +1,61 @@
 ## About this project
 The purpose of this project is to practice the usage of unittests with the library "pytest" in Python.
 
-Also, the conduction of CI ('Continuous Integration') via GitHub Actions, i.e. the automated execution
-of the unittests on certain actions (e.g. with every push to the remote repository) via a YAML-file
+Furthermore, the conduction of CI ('Continuous Integration') via GitHub Actions, i.e. the automated execution  
+of the unittests on certain actions (e.g. with every push to the remote repository) via YAML-files  
 is practiced.
+
+Building an executable is also done/practiced here.
+
+
+## Structure of this project
+### Content
+This project consists of four 'Sub'-projects, which are all unrelated to each other.  
+These Sub-Projects are:
+ - **Basics**: In this sub-project, the basics of writing simple test-cases via Pytest is practiced in the context of a calculator-application.
+ - **Fixtures**: The concept of 'fixtures' is practiced in the context of a simple user-manager 'database'.
+ - **Mocking**: The concept of 'mocking' is practiced in the context of a calculator-application. The most relevant mocking-functions and -attributes of pytest-mock are listed.
+ - **projects/textfile_writer**: The sub-project 'Textfile_writer' - unlike the other three projects - represents a complete, ready-to-use program.  
+ This program makes it possible to create a .txt-file and write some text to it, conducts a rollback in case of failure, and conducts a cleanup of the process in all cases.  
+
+ The Sub-project **Textfile_writer** is the most extensive of the four sub-projects.  
+ For more information on this sub-project see it´s README under 'src/unittest_training/projects/textfile_writer'.  
+
+ The folder **'github'** contains yaml-files for *actions* and *workflows* on ***GitHub Actions***.  
+
+<br>
+
+### Folderstructure
+The folderstructure of this project follows a **src-based structure/-layout**.  
+The general structure looks like this:
+```cpp
+project-root/
+├── src/
+│   └── package-name/
+│       ├── __init__.py
+│       └── basics
+│       └── fixtures
+│       └── mocking
+│       └── projects
+
+├── tests/
+│       └── basics
+│       └── fixtures
+│       └── mocking
+│       └── projects
+├── dist/
+│   └── textfile_writer_cli.exe
+├── pyproject.toml
+└── README.md
+└── requirements.txt
+└── .gitignore
+└── .github/
+```
+
+fddff
+
+
+
 
 ## Status overview
 ![Unittests](https://github.com/jonasnew501/unittest_training/actions/workflows/unittests.yml/badge.svg)
