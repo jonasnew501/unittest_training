@@ -23,9 +23,8 @@ These Sub-Projects are:
 
  The folder **'github'** contains yaml-files for *actions* and *workflows* on ***GitHub Actions***.  
 
-<br>
 
-### Folderstructure
+### Folder-structure
 The folderstructure of this project follows a **src-based structure/-layout**.  
 The general structure looks like this:
 ```cpp
@@ -33,16 +32,16 @@ project-root/
 ├── src/
 │   └── package-name/
 │       ├── __init__.py
-│       └── basics
-│       └── fixtures
-│       └── mocking
-│       └── projects
+│       └── basics/
+│       └── fixtures/
+│       └── mocking/
+│       └── projects/
 
 ├── tests/
-│       └── basics
-│       └── fixtures
-│       └── mocking
-│       └── projects
+│       └── basics/
+│       └── fixtures/
+│       └── mocking/
+│       └── projects/
 ├── dist/
 │   └── textfile_writer_cli.exe
 ├── pyproject.toml
@@ -52,14 +51,17 @@ project-root/
 └── .github/
 ```
 
-fddff
-
-
+The 'src'-folder contains the source-code, the 'tests'-folder contains the testing-code.  
+As can be seen in the above diagram, for every of the four sub-projects, there is an accompanying folder inside 'tests/'  
+containing all the test-code for the respective sub-project.
 
 
 ## Status overview
 ![Unittests](https://github.com/jonasnew501/unittest_training/actions/workflows/unittests.yml/badge.svg)
 ![Check for correct code-format](https://github.com/jonasnew501/unittest_training/actions/workflows/formatting_and_linting.yml/badge.svg)
+
+## Tech stack
+
 
 
 
