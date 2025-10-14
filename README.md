@@ -61,6 +61,16 @@ containing all the test-code for the respective sub-project.
 ![Check for correct code-format](https://github.com/jonasnew501/unittest_training/actions/workflows/formatting_and_linting.yml/badge.svg)
 
 ## Tech stack
+![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)  
+![OOP](https://img.shields.io/badge/OOP-Object%20Oriented%20Programming-4CAF50)  
+![PyTest](https://img.shields.io/badge/Testing-PyTest-46375B?logo=pytest&logoColor=white)  
+![Pytest-Mock](https://img.shields.io/badge/Testing-Pytest--Mock-6A5ACD?logo=pytest&logoColor=white)  
+![Black](https://img.shields.io/badge/Auto%20Formatting-Black-000000?logo=python&logoColor=white)  
+![GitHub Actions](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)  
+![Git](https://img.shields.io/badge/Git-Version%20Control-F05032?logo=git&logoColor=white)  
+![GitHub](https://img.shields.io/badge/GitHub-Repos-181717?logo=github&logoColor=white)  
+![Clean Code](https://img.shields.io/badge/Reading-Clean%20Code-000000)  
+
 
 
 
