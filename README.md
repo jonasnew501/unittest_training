@@ -61,15 +61,30 @@ containing all the test-code for the respective sub-project.
 ![Check for correct code-format](https://github.com/jonasnew501/unittest_training/actions/workflows/formatting_and_linting.yml/badge.svg)
 
 ## Tech stack
+**Language**  
 ![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)  
+
+**Programming Paradigm**  
 ![OOP](https://img.shields.io/badge/OOP-Object%20Oriented%20Programming-4CAF50)  
-![PyTest](https://img.shields.io/badge/Testing-PyTest-46375B?logo=pytest&logoColor=white)  
-![Pytest-Mock](https://img.shields.io/badge/Testing-Pytest--Mock-6A5ACD?logo=pytest&logoColor=white)  
-![Black](https://img.shields.io/badge/Auto%20Formatting-Black-000000?logo=python&logoColor=white)  
-![GitHub Actions](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)  
+
+**Tools & Workflow**  
 ![Git](https://img.shields.io/badge/Git-Version%20Control-F05032?logo=git&logoColor=white)  
 ![GitHub](https://img.shields.io/badge/GitHub-Repos-181717?logo=github&logoColor=white)  
+
+**Testing & CI**  
+![PyTest](https://img.shields.io/badge/Testing-PyTest-46375B?logo=pytest&logoColor=white)  
+![Pytest-Mock](https://img.shields.io/badge/Testing-Pytest--Mock-6A5ACD?logo=pytest&logoColor=white)  
+![GitHub Actions](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)  
+
+**Packaging & Deployment**  
+![PyInstaller](https://img.shields.io/badge/Build-Tool-PyInstaller-3776AB?logo=python&logoColor=white)  
+
+**Code Formatting**  
+![Black](https://img.shields.io/badge/Auto%20Formatting-Black-000000?logo=python&logoColor=white)
+
+**Other Topics Studied**  
 ![Clean Code](https://img.shields.io/badge/Reading-Clean%20Code-000000)  
+
 
 
 
@@ -130,7 +145,9 @@ containing all the test-code for the respective sub-project.
   ```
   worked fine when executing 'pytest' in the terminal.
 
-- **Seeing a function as making a 'promise' / 'contract' to resp. with the caller**
+<br>
+
+- **Seeing a function as making a 'promise' to / a 'contract' with the caller**
     - A function can be conceptually viewed as making a promise to the caller. It promises:  
       - That potential return-values are correct (e.g. the result of a mathematical operation is correct).  
       - That the datatype of potential return-values are of a specific type/of specific types.  
@@ -147,6 +164,8 @@ containing all the test-code for the respective sub-project.
     After all, the unittests can be seen to prove that the function actually keeps it´s promise (made in its  
     docstring, etc.). Of course this is only true if the unittests are implemented correctly and don´t miss  
     to check a part of the functions´ promise.
+  
+<br>
 
 - **I learned what the limits of unittests are and what failing unittests actually mean.**
     *Failing unittests show resp. mean that the contract of the related function was broken.*  
@@ -203,7 +222,11 @@ containing all the test-code for the respective sub-project.
       --> This example showed the limits of unittests.  
       --> Probably in practice in every case an individual decision must be made which approach makes more sense.  
 
+<br>
+
 - **How to properly structure and format function docstrings**
+
+<br>
 
 - **Raising domain-specific custom Exceptions instead of built-in Exceptions is a practice of clean code.**  
     - By doing that, implementation-details are hidden from the caller; they don´t need to know or reason about  
@@ -213,7 +236,9 @@ containing all the test-code for the respective sub-project.
       for example, it is more unlikely that the exceptions used in the accompanying unit-tests need to be changed / adapted  
       too if domain-specific custom Exceptions are used compared to when built-in, very specific exceptions are used.
 
-- **How pytest handles the context-manager 'with pytest.raises([SomeException])'**
+<br>
+
+- **How pytest handles the context-manager *with pytest.raises([SomeException])***
     - When using the context-manager 'with pytest.raises([SomeException]'), only one function which is expected to raise  
       this exception must be contained in that context-manager.  
       *-->Reason:* As soon as a function in that context-manager actually raises the specified exception, the context-manager    
@@ -221,6 +246,8 @@ containing all the test-code for the respective sub-project.
 
       -->As a consequence, per context-manager with 'with pytest.raises([SomeException])' only one function, which is expected
       to raise 'SomeException' must be contained.
+
+<br>
 
 - **How to use pytests 'parameterize' to avoid code duplication in test-functions**
 
@@ -255,4 +282,8 @@ containing all the test-code for the respective sub-project.
 
   Using test-parameterization makes the test code more readable, maintainable and scalable.  
 
-- XXX
+<br>
+
+- **What *Fixtures* are in Pytest and what their purpose is**
+
+  A *Fixture* is a 
