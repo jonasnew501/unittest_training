@@ -91,62 +91,6 @@ containing all the test-code for the respective sub-project.
 
 
 ## What I Learned
-- **Why, when executing `pytest` from the root directory (in this project `unittest_training`),  
-  the imports from files inside `src/` into a file inside `tests/` often fail — and how to solve it.**
-
-  ### ➡️ Why imports failed
-  By default, when running `pytest` from the project root, Python does not know that the `src/`  
-  directory should be treated as the root for imports.  
-
-  As a result, doing:
-  ```python
-  from src.calculator import Calculator
-  ```
-  raised
-  ```
-  ModuleNotFoundError: No module named 'src'
-  ```
-
-  ### ✅ Solution with pyproject.toml
-  We configure pytest to add src/ to Python’s import path by adding this to pyproject.toml:
-  ```toml
-  [tool.pytest.ini_options]
-  pythonpath = ["src"]
-  ```
-  This way, modules inside src/ become importable as top-level packages.
-  For example, src/calculator.py can be imported simply as:
-  ```python
-  from calculator import Calculator
-  ```
-
-  <br>
-
-  **However, I then encountered a case where even with a said 'pyproject.toml'-file the 'ModuleNotFoundError' arose.**  
-  I then installed the project as described in the following section.
-
-  ### ✅ Solution with 'pip install (-e) [project-name]'
-  The project can be installed as a Python package. It can then essentially be imported like other popular Python libraries like "NumPy" or "Pandas".
-  
-  In order for a project to be installable, the project needs to be structured as a Python package. That means:
-    - At least one folder needs to contain an '__init__.py-file, making that folder be treated as a package.
-    - Some packaging metadata (the 'pyproject.toml'-file in this project)
-
-  When those two points are met, running 'pip install -e .' from the project-root-directory will create a file  
-  inside the 'site-packages'-folder of the python-environment, which points back to the local folder of the project.
-
-  Now, on the machine where this installation was done, the project can be imported from anywhere.  
-  Also, local changes of this project are immediately recognized by Python (due to the '-e'-flag, which stands for 'editable mode').  
-  This means that no reinstall in necessary once the code in the project is changed.
-
-
-  After installing the project as a Python package, the import
-  ```python
-  from calculator import Calculator
-  ```
-  worked fine when executing 'pytest' in the terminal.
-
-<br>
-
 - **Seeing a function as making a 'promise' to / a 'contract' with the caller**
     - A function can be conceptually viewed as making a promise to the caller. It promises:  
       - That potential return-values are correct (e.g. the result of a mathematical operation is correct).  
@@ -249,7 +193,7 @@ containing all the test-code for the respective sub-project.
 
 <br>
 
-- **How to use pytests 'parameterize' to avoid code duplication in test-functions**
+- **How to use pytests *parameterize* to avoid code duplication in test-functions**
 
   Instead of having repeating function-calls resp. 'assert'-statements with just different parameters, like this:
   ```python
@@ -284,6 +228,116 @@ containing all the test-code for the respective sub-project.
 
 <br>
 
-- **What *Fixtures* are in Pytest and what their purpose is**
+- **What *Fixtures* in Pytest are, how to use them, and what their purpose is**
 
-  A *Fixture* is a 
+  **Fixtures** in Pytest are reusable, pre-defined functions that provide a reliable setup and teardown for tests.  
+  They allow to prepare test data, initialize objects, or configure environments before tests run — and optionally a cleanup after the tests ran is also possible.
+
+  By using fixtures it is possible to:
+    - Avoid repetitive setup code
+    - Make tests cleaner, modular, and easier to maintain
+    - Share common resources across multiple test functions safely
+
+<br>
+
+- **What *Mocking* in Pytest (resp. in *pytest-mock*) is, how to use it, and what its purpose is**
+
+  **Mocking** makes it possible to change the behavior of a specific functionality in the source-code, which is about to be tested.  
+  The reason for doing this can be to isolate some functionality of the source-code from external dependencies (e.g. a connection to a database).  
+  This isolation is done to limit the testing-scope to that functionality in the source-code, and not extend the testing-scope to the  
+  correct functioning of such external dependencies. The latter case would then rather be the scope of *Integration tests* instead of the scope of *Unit tests*.
+
+  Furthermore, mocking can be used to explicitly simulate erroneous behavior of specific functionality, for example a database connection error.  
+  By doing that the codes´ behavior in such "unhappy paths" can be tested and corrected when necessary.  
+
+  Additionally, mocking can be used to track/record the call-history of specific functionality.  
+  That means a functions´ behavior is not necessarily altered by mocking, but only tracked, and thus afterwards checks such as  
+  "Was the function call with the expected argument-values", "Was the function called an expected amount of times", etc. are possible  
+  to check the expected behavior of a function/functionality.  
+
+<br>
+
+- **How to build an executable as a CLI (="Command Line Interface") tool**
+  
+  I used **PyInstaller** in conjunction with Pythons´ **argparse**-module to build a single executable for Windows (i.e. an 'exe'-file)  
+  for the *Textfile_writer*-Sub-project described above.  
+
+  This program requires the user to specify two parameters, namely the *text* to write to the txt-file and the *filename* of the txt-file.  
+  I decided to build a CLI-tool, that means the executable can only be executed by calling it from a command-line interface (as opposed to double-clicking it),  
+  where the user is required to enter the two said parameters.  
+
+  Note:  
+  Building and shipping an executable (.exe) is a basic form of software delivery and a good starting point for distributing standalone applications.  
+  In professional environments, more advanced delivery approaches are often used — for example, containerization with *Docker*  
+  or exposing the application through an API using frameworks like *Flask* or *FastAPI*.  
+
+<br>
+
+- **How to properly create a *requirements.txt*-file**
+
+<br>
+
+- **How and why to structure a Python-project in *src*-layout**
+
+<br>
+
+- **What *__init.py__*-files are and what their purpose is**
+
+<br>
+
+- **Why, when executing `pytest` from the root directory (in this project `unittest_training`),  
+  the imports from files inside `src/` into a file inside `tests/` often fail — and how to solve it.**
+
+  ### ➡️ Why imports failed
+  By default, when running `pytest` from the project root, Python does not know that the `src/`  
+  directory should be treated as the root for imports.  
+
+  As a result, doing:
+  ```python
+  from src.calculator import Calculator
+  ```
+  raised
+  ```
+  ModuleNotFoundError: No module named 'src'
+  ```
+
+  ### ✅ Solution with pyproject.toml
+  We configure pytest to add src/ to Python’s import path by adding this to pyproject.toml:
+  ```toml
+  [tool.pytest.ini_options]
+  pythonpath = ["src"]
+  ```
+  This way, modules inside src/ become importable as top-level packages.
+  For example, src/calculator.py can be imported simply as:
+  ```python
+  from calculator import Calculator
+  ```
+
+  <br>
+
+  **However, I then encountered a case where even with a said 'pyproject.toml'-file the 'ModuleNotFoundError' arose.**  
+  I then installed the project as described in the following section.
+
+  ### ✅ Solution with 'pip install (-e) [project-name]'
+  The project can be installed as a Python package. It can then essentially be imported like other popular Python libraries like "NumPy" or "Pandas".
+  
+  In order for a project to be installable, the project needs to be structured as a Python package. That means:
+    - At least one folder needs to contain an '__init__.py-file, making that folder be treated as a package.
+    - Some packaging metadata (the 'pyproject.toml'-file in this project)
+
+  When those two points are met, running 'pip install -e .' from the project-root-directory will create a file  
+  inside the 'site-packages'-folder of the python-environment, which points back to the local folder of the project.
+
+  Now, on the machine where this installation was done, the project can be imported from anywhere.  
+  Also, local changes of this project are immediately recognized by Python (due to the '-e'-flag, which stands for 'editable mode').  
+  This means that no reinstall in necessary once the code in the project is changed.
+
+
+  After installing the project as a Python package, the import
+  ```python
+  from calculator import Calculator
+  ```
+  worked fine when executing 'pytest' in the terminal.
+
+<br>
+
