@@ -77,7 +77,7 @@ containing all the test-code for the respective sub-project.
 ![GitHub Actions](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)  
 
 **Packaging & Deployment**  
-![PyInstaller](https://img.shields.io/badge/Build-Tool-PyInstaller-3776AB?logo=python&logoColor=white)  
+![PyInstaller](https://img.shields.io/badge/Build%20Tool-PyInstaller-3776AB?logo=python&logoColor=white)  
 
 **Code Formatting**  
 ![Black](https://img.shields.io/badge/Auto%20Formatting-Black-000000?logo=python&logoColor=white)
