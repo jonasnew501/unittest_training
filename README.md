@@ -193,7 +193,7 @@ containing all the test-code for the respective sub-project.
 
 <br>
 
-- **How to use pytests *parameterize* to avoid code duplication in test-functions**
+- **How to use pytests´ *parameterize* to avoid code duplication in test-functions**
 
   Instead of having repeating function-calls resp. 'assert'-statements with just different parameters, like this:
   ```python
