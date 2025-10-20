@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "unittest_training"
 version = "0.1.0"
 description = "A toy project for practicing Unittests in Python via Pytest and CI via GitHub Actions."
-authors = [{ name = "Jonas Neumayer" }]
+authors = [{ name = "Jonas" }]
 dependencies = []
 requires-python = ">=3.9"
 

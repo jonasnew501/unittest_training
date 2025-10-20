@@ -59,7 +59,7 @@ class UserManager:
 
 
 user_manager = UserManager()
-user_manager.addUser(username="Jonas Neumayer", email="jonas.neumayer@test.de")
+user_manager.addUser(username="Max Mustermann", email="max.mustermann@test.de")
 print(user_manager.users)
-print(user_manager.getUserEmail(username="Jonas Neumayer"))
+print(user_manager.getUserEmail(username="Max Mustermann"))
 print(user_manager.users)
